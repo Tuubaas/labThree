@@ -1,6 +1,12 @@
 import java.awt.Dimension;
+import java.awt.List;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 public abstract class GameUtils implements GameModel {
+    
+        protected ArrayList<PropertyChangeListener> observers = new ArrayList<PropertyChangeListener>();
+    
         /**
          * Set the tile on a specified position in the gameboard.
          * 

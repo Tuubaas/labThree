@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.beans.PropertyChangeListener;
 
 /**
  * Interface for all game model classes.
@@ -6,7 +7,7 @@ import java.awt.Dimension;
  * Constructors of subclasses should initiate matrix elements and additional,
  * game-dependent fields.
  */
-public interface GameModel {
+public interface GameModel extends IObservable {
 
 	/** The size of the state matrix. */
 	final Dimension gameboardSize = Constants.getGameSize();
@@ -41,4 +42,16 @@ public interface GameModel {
 	 *            The most recent keystroke.
 	 */
 	public abstract void gameUpdate(int lastKey) throws GameOverException;
+	
+    /**
+     * 
+     * @param observer
+     */
+	void addObserver(PropertyChangeListener observer);
+	
+    /**
+     * 
+     * @param observer
+     */
+    void removeObserver(PropertyChangeListener observer);
 }

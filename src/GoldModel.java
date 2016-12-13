@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,6 +168,22 @@ public class GoldModel extends GameUtils implements GameModel {
         return GameModel.gameboardSize;
     }
 
+    /**
+     * 
+     * @param observer
+     */
+    public void addObserver(PropertyChangeListener observer) {
+        observers.add(observer);
+    }
+    
+    /**
+     * 
+     * @param observer
+     */
+    public void removeObserver(PropertyChangeListener observer) {
+        observers.remove(observer);
+    }
+    
 	/**
 	 * Insert another coin into the gameboard.
 	 */

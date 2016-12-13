@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * A somewhat defective implementation of the game Reversi. The purpose
@@ -185,6 +186,22 @@ public class ReversiModel extends GameUtils implements GameModel {
         return this.gameboardSize;
     }
 
+    /**
+     * 
+     * @param observer
+     */
+    public void addObserver(PropertyChangeListener observer) {
+        observers.add(observer);
+    }
+    
+    /**
+     * 
+     * @param observer
+     */
+    public void removeObserver(PropertyChangeListener observer) {
+        observers.remove(observer);
+    }
+    
     /**
      * This method is called repeatedly so that the game can update it's state.
      * 
