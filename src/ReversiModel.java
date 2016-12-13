@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
  * @author evensen
  * 
  */
-public class ReversiModel extends GameModel {
+public class ReversiModel extends GameUtils implements GameModel {
 	public enum Direction {
 			EAST(1, 0),
 			SOUTHEAST(1, 1),
@@ -82,8 +82,16 @@ public class ReversiModel extends GameModel {
 	private final int width;
 	private final int height;
 	private boolean gameOver;
+	
+	   /** A Matrix containing the state of the gameboard. */
+    private GameTile[][] gameboardState;
 
 	public ReversiModel() {
+	    
+	    Dimension size = getGameboardSize();
+        
+        gameboardState = new GameTile[GameModel.gameboardSize.width][GameModel.gameboardSize.height];
+	    
 		this.width = Constants.getGameSize().width;
 		this.height = Constants.getGameSize().height;
 		this.board = new PieceColor[this.width][this.height];
@@ -121,6 +129,68 @@ public class ReversiModel extends GameModel {
 		updateCursor();
 	}
 
+    /**
+     * Set the tile on a specified position in the gameboard.
+     * 
+     * @param pos
+     *            The position in the gameboard matrix.
+     * @param tile
+     *            The type of tile to paint in specified position
+     */
+    protected void setGameboardState(final Position pos, final GameTile tile) {
+        setGameboardState(pos.getX(), pos.getY(), tile);
+    }
+
+    /**
+     * Set the tile on a specified position in the gameboard.
+     * 
+     * @param x
+     *            Coordinate in the gameboard matrix.
+     * @param y
+     *            Coordinate in the gameboard matrix.
+     * @param tile
+     *            The type of tile to paint in specified position
+     */
+    protected void setGameboardState(final int x, final int y,
+            final GameTile tile) {
+        this.gameboardState[x][y] = tile;
+    }
+
+    /**
+     * Returns the GameTile in logical position (x,y) of the gameboard.
+     * 
+     * @param pos
+     *            The position in the gameboard matrix.
+     */
+    public GameTile getGameboardState(final Position pos) {
+        return getGameboardState(pos.getX(), pos.getY());
+    }
+
+    /**
+     * Returns the GameTile in logical position (x,y) of the gameboard.
+     * 
+     * @param x
+     *            Coordinate in the gameboard matrix.
+     * @param y
+     *            Coordinate in the gameboard matrix.
+     */
+    public GameTile getGameboardState(final int x, final int y) {
+        return this.gameboardState[x][y];
+    }
+
+    /**
+     * Returns the size of the gameboard.
+     */
+    public Dimension getGameboardSize() {
+        return this.gameboardSize;
+    }
+
+    /**
+     * This method is called repeatedly so that the game can update it's state.
+     * 
+     * @param lastKey
+     *            The most recent keystroke.
+     */
 	/**
 	 * Return whether the specified position is empty. If it only consists
 	 * of a blank tile, it is considered empty.

@@ -14,7 +14,8 @@ import java.util.List;
  * of remaining coins. The game is won when all coins are collected and lost when
  * collector leaves game board.
  */
-public class GoldModel extends GameModel {
+public class GoldModel extends GameUtils implements GameModel {
+    
 	public enum Directions {
 		EAST(1, 0),
 		WEST(-1, 0),
@@ -82,11 +83,16 @@ public class GoldModel extends GameModel {
 	/** The number of coins found. */
 	private int score;
 
+	/** A Matrix containing the state of the gameboard. */
+    private GameTile[][] gameboardState;
+
 	/**
 	 * Create a new model for the gold game.
 	 */
 	public GoldModel() {
 		Dimension size = getGameboardSize();
+	    
+		gameboardState = new GameTile[GameModel.gameboardSize.width][GameModel.gameboardSize.height];
 
 		// Blank out the whole gameboard
 		for (int i = 0; i < size.width; i++) {
@@ -104,6 +110,62 @@ public class GoldModel extends GameModel {
 			addCoin();
 		}
 	}
+
+	/**
+     * Set the tile on a specified position in the gameboard.
+     * 
+     * @param pos
+     *            The position in the gameboard matrix.
+     * @param tile
+     *            The type of tile to paint in specified position
+     */
+    protected void setGameboardState(final Position pos, final GameTile tile) {
+        setGameboardState(pos.getX(), pos.getY(), tile);
+    }
+
+    /**
+     * Set the tile on a specified position in the gameboard.
+     * 
+     * @param x
+     *            Coordinate in the gameboard matrix.
+     * @param y
+     *            Coordinate in the gameboard matrix.
+     * @param tile
+     *            The type of tile to paint in specified position
+     */
+    protected void setGameboardState(final int x, final int y,
+            final GameTile tile) {
+        this.gameboardState[x][y] = tile;
+    }
+
+    /**
+     * Returns the GameTile in logical position (x,y) of the gameboard.
+     * 
+     * @param pos
+     *            The position in the gameboard matrix.
+     */
+    public GameTile getGameboardState(final Position pos) {
+        return getGameboardState(pos.getX(), pos.getY());
+    }
+
+    /**
+     * Returns the GameTile in logical position (x,y) of the gameboard.
+     * 
+     * @param x
+     *            Coordinate in the gameboard matrix.
+     * @param y
+     *            Coordinate in the gameboard matrix.
+     */
+    public GameTile getGameboardState(final int x, final int y) {
+        return this.gameboardState[x][y];
+    }
+
+    /**
+     * Returns the size of the gameboard.
+     */
+    public Dimension getGameboardSize() {
+        return GameModel.gameboardSize;
+    }
 
 	/**
 	 * Insert another coin into the gameboard.
@@ -206,6 +268,7 @@ public class GoldModel extends GameModel {
 		// Add a new coin (simulating moving one coin)
 		addCoin();
 
+		
 	}
 
 	/**
