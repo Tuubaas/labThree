@@ -5,11 +5,11 @@ public interface IObservable {
      * 
      * @param observer
      */
-    void addObserver(PropertyChangeListener observer);
+    public void addObserver(PropertyChangeListener observer);
     
     /**
      * 
      * @param observer
      */
-    void removeObserver(PropertyChangeListener observer);
+    public void removeObserver(PropertyChangeListener observer);
 }

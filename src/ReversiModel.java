@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * A somewhat defective implementation of the game Reversi. The purpose
@@ -11,6 +12,9 @@ import java.beans.PropertyChangeListener;
  * 
  */
 public class ReversiModel extends GameUtils implements GameModel {
+
+	private PropertyChangeSupport gameModelListener = new PropertyChangeSupport(this);
+
 	public enum Direction {
 			EAST(1, 0),
 			SOUTHEAST(1, 1),
@@ -192,6 +196,7 @@ public class ReversiModel extends GameUtils implements GameModel {
      */
     public void addObserver(PropertyChangeListener observer) {
         observers.add(observer);
+		this.gameModelListener.addPropertyChangeListener(observer);
     }
     
     /**
@@ -200,6 +205,7 @@ public class ReversiModel extends GameUtils implements GameModel {
      */
     public void removeObserver(PropertyChangeListener observer) {
         observers.remove(observer);
+		this.gameModelListener.removePropertyChangeListener(observer);
     }
     
     /**
@@ -260,8 +266,9 @@ public class ReversiModel extends GameUtils implements GameModel {
 						(this.turn == Turn.BLACK
 								? PieceColor.BLACK
 								: PieceColor.WHITE);
-				System.out.println("Bong! White: " + this.whiteScore
-						+ "\tBlack: " + this.blackScore);
+				//System.out.println("Bong! White: " + this.whiteScore
+						//+ "\tBlack: " + this.blackScore);
+				this.gameModelListener.firePropertyChange("scoreChange", true, false);
 				this.turn = Turn.nextTurn(this.turn);
 			}
 			if (!canTurn(this.turn)) {
@@ -274,6 +281,10 @@ public class ReversiModel extends GameUtils implements GameModel {
 			}
 		}
 
+	}
+
+	public String getNextTurn(){
+		return (this.turn == Turn.BLACK ? PieceColor.WHITE : PieceColor.BLACK).toString();
 	}
 
 	private void turnOver(final Turn turn, final Position cursorPos) {
@@ -420,7 +431,8 @@ public class ReversiModel extends GameUtils implements GameModel {
 			this.cursorPos = nextCursorPos;
 			updateCursor();
 		} else {
-			throw new GameOverException(this.blackScore - this.whiteScore);
+			//throw new GameOverException(this.blackScore - this.whiteScore);
+			throw new GameOverException(Math.abs(this.blackScore - this.whiteScore));
 		}
 	}
 
