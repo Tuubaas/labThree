@@ -454,7 +454,7 @@ public class ReversiModel extends GameUtils implements GameModel {
 
 	@Override
 	public int getUpdateSpeed(){
-		return -1;
+		return 1;
 	}
 
 }

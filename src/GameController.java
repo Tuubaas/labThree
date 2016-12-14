@@ -130,7 +130,7 @@ public class GameController implements Runnable {
 		this.isRunning = false;
 
 		// Unset the game model...
-		this.view.setModel(null);
+		//this.view.setModel(null);
 
 		// Stop listening for events
 		this.view.removeKeyListener(this.keyListener);
@@ -153,7 +153,8 @@ public class GameController implements Runnable {
 	 */
 	@Override
 	public void run() {
-		while (this.isRunning) {
+		//while (this.isRunning) {
+		while (this.isRunning && this.gameModel.getUpdateSpeed() > 0) {
 			try {
 				// Tell model to update, send next key press.
 				// or 0 if no new keypress since last update.
