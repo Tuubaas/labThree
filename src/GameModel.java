@@ -54,4 +54,6 @@ public interface GameModel extends IObservable {
      * @param observer
      */
     void removeObserver(PropertyChangeListener observer);
+
+	public int getUpdateSpeed();
 }

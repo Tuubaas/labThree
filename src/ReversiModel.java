@@ -452,4 +452,9 @@ public class ReversiModel extends GameUtils implements GameModel {
 		setGameboardState(this.cursorPos, cursoredTile);
 	}
 
+	@Override
+	public int getUpdateSpeed(){
+		return -1;
+	}
+
 }

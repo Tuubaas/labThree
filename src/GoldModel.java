@@ -298,4 +298,9 @@ public class GoldModel extends GameUtils implements GameModel {
 				|| pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
 	}
 
+	@Override
+	public int getUpdateSpeed(){
+		return 100;
+	}
+
 }
