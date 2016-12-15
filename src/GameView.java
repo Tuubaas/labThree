@@ -55,7 +55,14 @@ public class GameView extends JComponent implements PropertyChangeListener {
 	 * Updates the view with a new model.
 	 */
 	public void setModel(final GameModel model) {
+		//this.model = model;
+		//repaint();
+
+		if (this.model != null)
+			this.model.removeObserver(this);
 		this.model = model;
+		if (this.model != null)
+			this.model.addObserver(this);
 		repaint();
 	}
 

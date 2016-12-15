@@ -68,7 +68,17 @@ public class GameController implements Runnable {
 	 * Add a key press to the end of the queue
 	 */
 	private synchronized void enqueueKeyPress(final int key) {
-		this.keypresses.add(Integer.valueOf(key));
+		//this.keypresses.add(Integer.valueOf(key));
+		if(this.gameModel.getUpdateSpeed() > 0) {
+			this.keypresses.add(Integer.valueOf(key));
+		}else{
+			try {
+				this.gameModel.gameUpdate(key);
+			} catch (GameOverException e){
+				this.isRunning = false;
+				System.out.println("Game over: " + e.getScore());
+			}
+		}
 	}
 
 	/**
@@ -120,7 +130,7 @@ public class GameController implements Runnable {
 		this.isRunning = false;
 
 		// Unset the game model...
-		this.view.setModel(null);
+		//this.view.setModel(null);
 
 		// Stop listening for events
 		this.view.removeKeyListener(this.keyListener);
@@ -143,7 +153,8 @@ public class GameController implements Runnable {
 	 */
 	@Override
 	public void run() {
-		while (this.isRunning) {
+		//while (this.isRunning) {
+		while (this.isRunning && this.gameModel.getUpdateSpeed() > 0) {
 			try {
 				// Tell model to update, send next key press.
 				// or 0 if no new keypress since last update.

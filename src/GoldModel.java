@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Sample game for illustration. Intentionally stupid; more interesting
@@ -16,7 +17,9 @@ import java.util.List;
  * collector leaves game board.
  */
 public class GoldModel extends GameUtils implements GameModel {
-    
+
+	private PropertyChangeSupport gameModelListener = new PropertyChangeSupport(this);
+
 	public enum Directions {
 		EAST(1, 0),
 		WEST(-1, 0),
@@ -296,6 +299,11 @@ public class GoldModel extends GameUtils implements GameModel {
 	private boolean isOutOfBounds(Position pos) {
 		return pos.getX() < 0 || pos.getX() >= getGameboardSize().width
 				|| pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
+	}
+
+	@Override
+	public int getUpdateSpeed(){
+		return 100;
 	}
 
 }

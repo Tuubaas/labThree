@@ -47,11 +47,13 @@ public interface GameModel extends IObservable {
      * 
      * @param observer
      */
-	void addObserver(PropertyChangeListener observer);
+	//void addObserver(PropertyChangeListener observer);
 	
     /**
      * 
      * @param observer
      */
-    void removeObserver(PropertyChangeListener observer);
+    //void removeObserver(PropertyChangeListener observer);
+
+	public int getUpdateSpeed();
 }
